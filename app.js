@@ -17,7 +17,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x5695BC );
-	scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
+	scene.fog = new THREE.FogExp2( 0x4E5C5E, 0.0025 );
 	var data = generateHeight( worldWidth, worldDepth );
 	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
