@@ -3,6 +3,13 @@
  * @author alteredq / http://alteredqualia.com/
  * @author paulirish / http://paulirish.com/
  */
+
+ import {
+	Math as _Math,
+	Spherical,
+	Vector3
+} from "../../../build/three.module.js";
+
 export default function FirstPersonControls( object, domElement ) {
 
 	if ( domElement === undefined ) {
