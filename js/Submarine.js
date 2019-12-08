@@ -23,6 +23,9 @@ export default function Submarine(){
 	mesh.scale.multiplyScalar( 1 );
 
 	torsoMesh.add( mesh );
+	var skeletonHelper = new THREE.SkeletonHelper( mesh );
+	skeletonHelper.material.linewidth = 2;
+	torsoMesh.add( skeletonHelper );
 }
 
 function createGeometry( sizing ) {
@@ -98,10 +101,6 @@ function createMesh( geometry, bones ){
 	mesh.add( bones[ 0 ] );
 
 	mesh.bind( skeleton );
-
-	var skeletonHelper = new THREE.SkeletonHelper( mesh );
-	skeletonHelper.material.linewidth = 2;
-	scene.add( skeletonHelper );
 
 	return mesh;
 }
