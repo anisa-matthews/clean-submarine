@@ -1,5 +1,6 @@
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
-import { ImprovedNoise } from 'three/examples/jsm/math/ImprovedNoise.js';
+import OrbitControls from './js/OrbitControls.js';
+import FirstPersonControls from './js/FirstPersonControls.js';
+import ImprovedNoise from './js/ImprovedNoise.js';
 
 ////SETUP////
 var scene = new THREE.Scene();
