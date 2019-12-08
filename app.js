@@ -1,4 +1,5 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
+import Submarine from './js/Submarine.js';
 
 var container;
 var camera, controls, renderer;
@@ -9,6 +10,8 @@ var worldWidth = 256, worldDepth = 256,
 var clock = new THREE.Clock();
 var sliderPos = window.innerWidth / 2;
 var sliderMoved = false;
+
+var state = { animateBones: false };
 
 init();
 animate();
@@ -65,22 +68,21 @@ function scene1(data){
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
 	bgMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
-	sceneL.add( bgMesh );
-
-
-
+	
 		//CORAL//
-	// var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
-	// var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
-	// for ( var i = 0; i < 500; i ++ ) {
-	// 	var cMesh = new THREE.Mesh( geometry, material );
-	// 	cMesh.position.x = Math.random() * 1600 - 800;
-	// 	cMesh.position.y = 0;
-	// 	cMesh.position.z = Math.random() * 16000 - 800;
-	// 	cMesh.updateMatrix();
-	// 	cMesh.matrixAutoUpdate = false;
-	// 	bgMesh.add(cMesh);
-	// }
+	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+	var material = new THREE.MeshPhongMaterial( { color: 0xFCAEB3, flatShading: true } );
+	for ( var i = 0; i < 500; i ++ ) {
+		var cMesh = new THREE.Mesh( geometry, material );
+		cMesh.position.x = Math.random() * 1600 - 800;
+		cMesh.position.y = 0;
+		cMesh.position.z = Math.random() * 16000 - 800;
+		cMesh.updateMatrix();
+		cMesh.matrixAutoUpdate = false;
+		bgMesh.add(cMesh);
+	}
+
+	sceneL.add( bgMesh );
 }
 
 function scene2(){
@@ -88,8 +90,8 @@ function scene2(){
 	sceneR.background = new THREE.Color( 0x5695BC );
 	
 	//SUBMARINE//
-
-	var torsoGeo;
+	sub = new Submarine();
+	sceneR.add(sub);
 }
 
 function onWindowResize() {
