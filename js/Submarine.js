@@ -72,7 +72,7 @@ function createBones( sizing ){
 
 	for ( var i = 0; i < sizing.segmentCount; i ++ ) {
 
-		var bone = new Bone();
+		var bone = new THREE.Bone();
 		bone.position.y = sizing.segmentHeight;
 		bones.push( bone );
 		prevBone.add( bone );
