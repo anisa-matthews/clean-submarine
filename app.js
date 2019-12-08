@@ -7,6 +7,55 @@ var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
 
+//VIEWS
+var views = [
+	{
+		left: 0,
+		bottom: 0,
+		width: 0.5,
+		height: 1.0,
+		background: new THREE.Color( 0.5, 0.5, 0.7 ),
+		eye: [ 0, 300, 1800 ],
+		up: [ 0, 1, 0 ],
+		fov: 30,
+		updateCamera: function ( camera, scene, mouseX ) {
+		  camera.position.x += mouseX * 0.05;
+		  camera.position.x = Math.max( Math.min( camera.position.x, 2000 ), - 2000 );
+		  camera.lookAt( scene.position );
+		}
+	},
+	{
+		left: 0.5,
+		bottom: 0,
+		width: 0.5,
+		height: 0.5,
+		background: new THREE.Color( 0.7, 0.5, 0.5 ),
+		eye: [ 0, 1800, 0 ],
+		up: [ 0, 0, 1 ],
+		fov: 45,
+		updateCamera: function ( camera, scene, mouseX ) {
+		  camera.position.x -= mouseX * 0.05;
+		  camera.position.x = Math.max( Math.min( camera.position.x, 2000 ), - 2000 );
+		  camera.lookAt( camera.position.clone().setY( 0 ) );
+		}
+	},
+	{
+		left: 0.5,
+		bottom: 0.5,
+		width: 0.5,
+		height: 0.5,
+		background: new THREE.Color( 0.5, 0.7, 0.7 ),
+		eye: [ 1400, 800, 1400 ],
+		up: [ 0, 1, 0 ],
+		fov: 60,
+		updateCamera: function ( camera, scene, mouseX ) {
+		  camera.position.y -= mouseX * 0.05;
+		  camera.position.y = Math.max( Math.min( camera.position.y, 1600 ), - 1600 );
+		  camera.lookAt( scene.position );
+		}
+	}
+];
+
 init();
 animate();
 
@@ -18,7 +67,7 @@ function init() {
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x5695BC );
-	scene.fog = new THREE.FogExp2( 0x4E5C5E, 0.0025 );
+	scene.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
 	var data = generateHeight( worldWidth, worldDepth );
 	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
@@ -27,6 +76,7 @@ function init() {
 
 		//BACKGROUND//
 	var planeGeo = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1 );
+
 	planeGeo.rotateX( - Math.PI / 2 );
 	var vertices = planeGeo.attributes.position.array;
 	for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
@@ -44,6 +94,8 @@ function init() {
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
+
+
 
 		//CORAL//
 	// var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
@@ -135,6 +187,16 @@ function generateTexture( data, width, height ) {
 //ADD FUNCTIONALITY OF ROBOT//
 
 
+
+function updateSize() {
+	if ( windowWidth != window.innerWidth || windowHeight != window.innerHeight ) {
+		windowWidth = window.innerWidth;
+		windowHeight = window.innerHeight;
+		renderer.setSize( windowWidth, windowHeight );
+	}
+}
+
+
 function animate() {
 	requestAnimationFrame( animate );
 	render();
@@ -142,12 +204,24 @@ function animate() {
 
 function render() {
 	controls.update(clock.getDelta());
-	renderer.render( scene, camera );
+	updateSize();
+	for ( var ii = 0; ii < views.length; ++ ii ) {
+		var view = views[ ii ];
+		var camera = view.camera;
+		view.updateCamera( camera, scene, mouseX, mouseY );
+		var left = Math.floor( windowWidth * view.left );
+		var bottom = Math.floor( windowHeight * view.bottom );
+		var width = Math.floor( windowWidth * view.width );
+		var height = Math.floor( windowHeight * view.height );
+		renderer.setViewport( left, bottom, width, height );
+		renderer.setScissor( left, bottom, width, height );
+		renderer.setScissorTest( true );
+		renderer.setClearColor( view.background );
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
+		renderer.render( scene, camera );
+	}
 }
-
-
-
-
 
 
 
