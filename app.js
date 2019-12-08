@@ -16,7 +16,8 @@ function init() {
 	container = document.getElementById( 'container' );
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 );
 	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0xbfd1e5 );
+	scene.background = new THREE.Color( 0x5695BC );
+	scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
 	var data = generateHeight( worldWidth, worldDepth );
 	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
@@ -36,14 +37,25 @@ function init() {
 	texture = new THREE.TextureLoader().load( "sand1.jpg" );
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
-	mesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
-	scene.add( mesh );
+	pMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
+	scene.add( pMesh );
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
 	container.appendChild( renderer.domElement );
 
-
+		//CORAL//
+	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+	var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+	for ( var i = 0; i < 500; i ++ ) {
+		var mesh = new THREE.Mesh( geometry, material );
+		cMesh.position.x = Math.random() * 1600 - 800;
+		cMesh.position.y = 0;
+		cMesh.position.z = Math.random() * 16000 - 800;
+		cMesh.updateMatrix();
+		cMesh.matrixAutoUpdate = false;
+		pMesh.add(cMesh);
+	}
 
 
 
