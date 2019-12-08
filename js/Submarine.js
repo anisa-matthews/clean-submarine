@@ -64,7 +64,7 @@ function createGeometry( sizing ) {
 
 function createBones( sizing ){
 	//ARMS//
-	bones = [];
+	let bones = [];
 
 	var prevBone = new THREE.Bone();
 	bones.push( prevBone );
