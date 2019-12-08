@@ -99,7 +99,7 @@ function createMesh( geometry, bones ){
 
 	mesh.bind( skeleton );
 
-	skeletonHelper = new THREE.SkeletonHelper( mesh );
+	var skeletonHelper = new THREE.SkeletonHelper( mesh );
 	skeletonHelper.material.linewidth = 2;
 	scene.add( skeletonHelper );
 
