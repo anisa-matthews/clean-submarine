@@ -5,6 +5,7 @@ var camera, controls, scene, renderer;
 var mesh, texture;
 var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
+var clock = new THREE.Clock();
 
 init();
 animate();
@@ -125,7 +126,7 @@ function animate() {
 }
 
 function render() {
-	controls.update();
+	controls.update(clock.getDelta);
 	renderer.render( scene, camera );
 }
 
