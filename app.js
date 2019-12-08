@@ -14,6 +14,7 @@ function init() {
 
 	//SCENE//
 	container = document.getElementById( 'container' );
+
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x5695BC );
@@ -25,7 +26,7 @@ function init() {
 	////OBJECTS////
 
 		//BACKGROUND//
-	var planeGeo = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
+	var planeGeo = new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight, worldWidth - 1, worldDepth - 1 );
 	planeGeo.rotateX( - Math.PI / 2 );
 	var vertices = planeGeo.attributes.position.array;
 	for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
@@ -45,17 +46,17 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 		//CORAL//
-	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
-	var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
-	for ( var i = 0; i < 500; i ++ ) {
-		var cMesh = new THREE.Mesh( geometry, material );
-		cMesh.position.x = Math.random() * 1600 - 800;
-		cMesh.position.y = 0;
-		cMesh.position.z = Math.random() * 16000 - 800;
-		cMesh.updateMatrix();
-		cMesh.matrixAutoUpdate = false;
-		bgMesh.add(cMesh);
-	}
+	// var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+	// var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
+	// for ( var i = 0; i < 500; i ++ ) {
+	// 	var cMesh = new THREE.Mesh( geometry, material );
+	// 	cMesh.position.x = Math.random() * 1600 - 800;
+	// 	cMesh.position.y = 0;
+	// 	cMesh.position.z = Math.random() * 16000 - 800;
+	// 	cMesh.updateMatrix();
+	// 	cMesh.matrixAutoUpdate = false;
+	// 	bgMesh.add(cMesh);
+	// }
 
 
 
@@ -130,6 +131,8 @@ function generateTexture( data, width, height ) {
 	context.putImageData( image, 0, 0 );
 	return canvasScaled;
 }
+
+//ADD FUNCTIONALITY OF ROBOT//
 
 
 function animate() {
