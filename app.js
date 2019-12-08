@@ -1,4 +1,3 @@
-import OrbitControls from './js/OrbitControls.js';
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 ////SETUP////
