@@ -3,7 +3,7 @@
  * @author alteredq / http://alteredqualia.com/
  * @author paulirish / http://paulirish.com/
  */
-var FirstPersonControls = function ( object, domElement ) {
+export default function FirstPersonControls( object, domElement ) {
 
 	if ( domElement === undefined ) {
 
