@@ -22,8 +22,8 @@ function init() {
 	var data = generateHeight( worldWidth, worldDepth );
 	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
-	sceneL();
-	sceneR();
+	scene1();
+	scene2();
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
 	renderer.setSize( container.clientWidth, container.clientHeight );
@@ -43,7 +43,7 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 }
 
-function sceneL(){
+function scene1(){
 	sceneL = new THREE.Scene();
 	sceneL.background = new THREE.Color( 0x143B5E );
 	sceneL.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
@@ -83,7 +83,7 @@ function sceneL(){
 	// }
 }
 
-function sceneR(){
+function scene2(){
 	sceneL = new THREE.Scene();
 	sceneL.background = new THREE.Color( 0x5695BC );
 	
