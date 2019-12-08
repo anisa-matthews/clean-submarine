@@ -56,8 +56,8 @@ function createGeometry( sizing ) {
 
 	}
 
-	geometry.setAttribute( 'skinIndex', new THREE.Uint16BufferAttribute( skinIndices, 4 ) );
-	geometry.setAttribute( 'skinWeight', new THREE.Float32BufferAttribute( skinWeights, 4 ) );
+	geometry.skinIndex = new THREE.Uint16BufferAttribute( skinIndices, 4 );
+	geometry.skinWeight = new THREE.Float32BufferAttribute( skinWeights, 4 );
 
 	return geometry;
 }
