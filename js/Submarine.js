@@ -26,7 +26,7 @@ export default function Submarine(){
 }
 
 function createGeometry( sizing ) {
-	var geometry = new CylinderBufferGeometry(
+	var geometry = new THREE.CylinderBufferGeometry(
 		5, // radiusTop
 		5, // radiusBottom
 		sizing.height, // height
@@ -66,7 +66,7 @@ function createBones( sizing ){
 	//ARMS//
 	bones = [];
 
-	var prevBone = new Bone();
+	var prevBone = new THREE.Bone();
 	bones.push( prevBone );
 	prevBone.position.y = - sizing.halfHeight;
 
@@ -84,7 +84,7 @@ function createBones( sizing ){
 }
 
 function createMesh( geometry, bones ){
-	var material = new MeshPhongMaterial( {
+	var material = new THREE.MeshPhongMaterial( {
 		skinning: true,
 		color: 0x156289,
 		emissive: 0x072534,
