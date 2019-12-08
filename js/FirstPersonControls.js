@@ -58,9 +58,9 @@ export default function FirstPersonControls( object, domElement ) {
 	var lat = 0;
 	var lon = 0;
 
-	var lookDirection = new Vector3();
-	var spherical = new Spherical();
-	var target = new Vector3();
+	var lookDirection = new THREE.Vector3();
+	var spherical = new THREE.Spherical();
+	var target = new THREE.Vector3();
 
 	//
 
