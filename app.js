@@ -7,6 +7,8 @@ var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
 
+var data = generateHeight( worldWidth, worldDepth );
+
 //VIEWS
 var views = [
 	{
@@ -19,8 +21,9 @@ var views = [
 		up: [ 0, 1, 0 ],
 		fov: 30,
 		updateCamera: function ( camera, scene, mouseX ) {
-		  camera.position.x += mouseX * 0.05;
-		  camera.position.x = Math.max( Math.min( camera.position.x, 2000 ), - 2000 );
+		  // camera.position.x += mouseX * 0.05;
+		  // camera.position.x = Math.max( Math.min( camera.position.x, 2000 ), - 2000 );
+		  camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 		  camera.lookAt( scene.position );
 		}
 	},
@@ -63,13 +66,18 @@ function init() {
 
 	//SCENE//
 	container = document.getElementById( 'container' );
+	for ( var ii = 0; ii < views.length; ++ ii ) {
+		var view = views[ ii ];
+		var camera = new THREE.PerspectiveCamera( view.fov, window.innerWidth / window.innerHeight, 1, 10000 );
+		camera.position.fromArray( view.eye );
+		camera.up.fromArray( view.up );
+		view.camera = camera;
+	}
 
-	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x5695BC );
 	scene.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
-	var data = generateHeight( worldWidth, worldDepth );
-	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
+	// camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
 
 	////OBJECTS////
