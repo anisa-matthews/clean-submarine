@@ -125,7 +125,7 @@ function animate() {
 }
 
 function render() {
-	controls.update()
+	controls.update();
 	renderer.render( scene, camera );
 }
 
