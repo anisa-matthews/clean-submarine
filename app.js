@@ -1,11 +1,14 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
-var camera, controls, scene, renderer;
+var camera, controls, renderer;
+var sceneL, sceneR;
 var bgMesh, texture;
 var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
+var sliderPos = window.innerWidth / 2;
+var sliderMoved = false;
 
 init();
 animate();
@@ -16,12 +19,34 @@ function init() {
 	container = document.getElementById( 'container' );
 
 	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-	scene = new THREE.Scene();
-	scene.background = new THREE.Color( 0x5695BC );
-	scene.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
 	var data = generateHeight( worldWidth, worldDepth );
 	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
+	sceneL();
+	sceneR();
+
+	renderer = new THREE.WebGLRenderer( { antialias: true } );
+	renderer.setSize( container.clientWidth, container.clientHeight );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setScissorTest( true );
+	container.appendChild( renderer.domElement );
+	renderer.setAnimationLoop( function () {
+		render();
+	} );
+	initComparisons();
+	
+	//CONTROLS
+	controls = new FirstPersonControls( camera, renderer.domElement );
+	controls.movementSpeed = 1000;
+	controls.lookSpeed = 0.1;
+	//
+	window.addEventListener( 'resize', onWindowResize, false );
+}
+
+funciton sceneL(){
+	sceneL = new THREE.Scene();
+	sceneL.background = new THREE.Color( 0x143B5E );
+	sceneL.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
 
 	////OBJECTS////
 
@@ -40,11 +65,7 @@ function init() {
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
 	bgMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
-	scene.add( bgMesh );
-	renderer = new THREE.WebGLRenderer();
-	renderer.setPixelRatio( window.devicePixelRatio );
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	container.appendChild( renderer.domElement );
+	sceneL.add( bgMesh );
 
 
 
@@ -60,16 +81,14 @@ function init() {
 	// 	cMesh.matrixAutoUpdate = false;
 	// 	bgMesh.add(cMesh);
 	// }
+}
 
+function sceneR(){
+	sceneL = new THREE.Scene();
+	sceneL.background = new THREE.Color( 0x5695BC );
+	////OBJECTS////
 
-
-	
-	//CONTROLS
-	controls = new FirstPersonControls( camera, renderer.domElement );
-	controls.movementSpeed = 1000;
-	controls.lookSpeed = 0.1;
-	//
-	window.addEventListener( 'resize', onWindowResize, false );
+	//SUBMARINE//
 }
 
 function onWindowResize() {
@@ -145,10 +164,39 @@ function animate() {
 
 function render() {
 	controls.update(clock.getDelta());
-	renderer.render( scene, camera );
+	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
+	renderer.render( sceneL, camera );
+	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
+	renderer.render( sceneR, camera );
 }
 
-
+function initComparisons() {
+	var slider = document.querySelector( '.slider' );
+	var clicked = false;
+	function slideReady() {
+		clicked = true;
+		controls.enabled = false;
+	}
+	function slideFinish() {
+		clicked = false;
+		controls.enabled = true;
+	}
+	function slideMove( e ) {
+		if ( ! clicked ) return false;
+		sliderMoved = true;
+		sliderPos = e.pageX || e.touches[ 0 ].pageX;
+		//prevent the slider from being positioned outside the window bounds
+		if ( sliderPos < 0 ) sliderPos = 0;
+		if ( sliderPos > window.innerWidth ) sliderPos = window.innerWidth;
+		slider.style.left = sliderPos - ( slider.offsetWidth / 2 ) + "px";
+	}
+	slider.addEventListener( 'mousedown', slideReady );
+	slider.addEventListener( 'touchstart', slideReady );
+	window.addEventListener( 'mouseup', slideFinish );
+	window.addEventListener( 'touchend', slideFinish );
+	window.addEventListener( 'mousemove', slideMove );
+	window.addEventListener( 'touchmove', slideMove );
+}
 
 
 
