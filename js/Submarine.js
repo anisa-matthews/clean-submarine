@@ -56,8 +56,8 @@ function createGeometry( sizing ) {
 
 	}
 
-	geometry.setAttribute( 'skinIndex', new Uint16BufferAttribute( skinIndices, 4 ) );
-	geometry.setAttribute( 'skinWeight', new Float32BufferAttribute( skinWeights, 4 ) );
+	geometry.setAttribute( 'skinIndex', new THREE.Uint16BufferAttribute( skinIndices, 4 ) );
+	geometry.setAttribute( 'skinWeight', new THREE.Float32BufferAttribute( skinWeights, 4 ) );
 
 	return geometry;
 }
@@ -88,18 +88,18 @@ function createMesh( geometry, bones ){
 		skinning: true,
 		color: 0x156289,
 		emissive: 0x072534,
-		side: DoubleSide,
+		side: THREE.DoubleSide,
 		flatShading: true
 	} );
 
-	var mesh = new SkinnedMesh( geometry,	material );
-	var skeleton = new Skeleton( bones );
+	var mesh = new THREE.SkinnedMesh( geometry,	material );
+	var skeleton = new THREE.Skeleton( bones );
 
 	mesh.add( bones[ 0 ] );
 
 	mesh.bind( skeleton );
 
-	skeletonHelper = new SkeletonHelper( mesh );
+	skeletonHelper = new THREE.SkeletonHelper( mesh );
 	skeletonHelper.material.linewidth = 2;
 	scene.add( skeletonHelper );
 
