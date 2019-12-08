@@ -14,7 +14,7 @@ function init() {
 
 	//SCENE//
 	container = document.getElementById( 'container' );
-	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 20000 );
+	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color( 0x5695BC );
 	scene.fog = new THREE.FogExp2( 0xefd1b5, 0.0025 );
@@ -138,7 +138,7 @@ function animate() {
 }
 
 function render() {
-	controls.update(clock.getDelta);
+	controls.update(clock.getDelta());
 	renderer.render( scene, camera );
 }
 
