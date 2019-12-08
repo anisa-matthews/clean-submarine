@@ -29,9 +29,12 @@ function init() {
 	for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
 		vertices[ j + 1 ] = data[ i ] * 10;
 	}
-	texture = new THREE.CanvasTexture( generateTexture( data, worldWidth, worldDepth ) );
-	texture.wrapS = THREE.ClampToEdgeWrapping;
-	texture.wrapT = THREE.ClampToEdgeWrapping;
+	// texture = new THREE.CanvasTexture( generateTexture( data, worldWidth, worldDepth ) );
+	// texture.wrapS = THREE.ClampToEdgeWrapping;
+	// texture.wrapT = THREE.ClampToEdgeWrapping;
+	texture = new THREE.TextureLoader().load( "sand1.jpg" );
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
 	mesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	scene.add( mesh );
 	renderer = new THREE.WebGLRenderer();
@@ -40,9 +43,9 @@ function init() {
 	container.appendChild( renderer.domElement );
 
 
-	
 
-	
+
+
 	
 	//CONTROLS
 	controls = new FirstPersonControls( camera, renderer.domElement );
