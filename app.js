@@ -26,7 +26,7 @@ function init() {
 	////OBJECTS////
 
 		//BACKGROUND//
-	var planeGeo = new THREE.PlaneBufferGeometry(window.innerWidth, window.innerHeight, worldWidth - 1, worldDepth - 1 );
+	var planeGeo = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1 );
 	planeGeo.rotateX( - Math.PI / 2 );
 	var vertices = planeGeo.attributes.position.array;
 	for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
