@@ -1,6 +1,5 @@
 import OrbitControls from './js/OrbitControls.js';
 import FirstPersonControls from './js/FirstPersonControls.js';
-import * as ImprovedNoise from './js/ImprovedNoise.js';
 
 ////SETUP////
 var scene = new THREE.Scene();
