@@ -3,13 +3,6 @@
  * @author alteredq / http://alteredqualia.com/
  * @author paulirish / http://paulirish.com/
  */
-
- import {
-	Math as _Math,
-	Spherical,
-	Vector3
-} from "../../../build/three.module.js";
-
 export default function FirstPersonControls( object, domElement ) {
 
 	if ( domElement === undefined ) {
@@ -235,7 +228,7 @@ export default function FirstPersonControls( object, domElement ) {
 
 			if ( this.heightSpeed ) {
 
-				var y = _Math.clamp( this.object.position.y, this.heightMin, this.heightMax );
+				var y = THREE.Math.clamp( this.object.position.y, this.heightMin, this.heightMax );
 				var heightDelta = y - this.heightMin;
 
 				this.autoSpeedFactor = delta * ( heightDelta * this.heightCoef );
@@ -278,12 +271,12 @@ export default function FirstPersonControls( object, domElement ) {
 
 			lat = Math.max( - 85, Math.min( 85, lat ) );
 
-			var phi = _Math.degToRad( 90 - lat );
-			var theta = _Math.degToRad( lon );
+			var phi = THREE.Math.degToRad( 90 - lat );
+			var theta = THREE.Math.degToRad( lon );
 
 			if ( this.constrainVertical ) {
 
-				phi = _Math.mapLinear( phi, 0, Math.PI, this.verticalMin, this.verticalMax );
+				phi = THREE.Math.mapLinear( phi, 0, Math.PI, this.verticalMin, this.verticalMax );
 
 			}
 
@@ -346,8 +339,8 @@ export default function FirstPersonControls( object, domElement ) {
 		lookDirection.set( 0, 0, - 1 ).applyQuaternion( quaternion );
 		spherical.setFromVector3( lookDirection );
 
-		lat = 90 - _Math.radToDeg( spherical.phi );
-		lon = _Math.radToDeg( spherical.theta );
+		lat = 90 - THREE.Math.radToDeg( spherical.phi );
+		lon = THREE.Math.radToDeg( spherical.theta );
 
 	}
 
