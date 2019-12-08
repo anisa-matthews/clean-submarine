@@ -84,29 +84,12 @@ function scene1(data){
 }
 
 function scene2(){
-	sceneL = new THREE.Scene();
-	sceneL.background = new THREE.Color( 0x5695BC );
+	sceneR = new THREE.Scene();
+	sceneR.background = new THREE.Color( 0x5695BC );
 	
 	//SUBMARINE//
 
-	var bones = [];
-
-	var shoulder = new THREE.Bone();
-	var elbow = new THREE.Bone();
-	var hand = new THREE.Bone();
-
-	shoulder.add( elbow );
-	elbow.add( hand );
-
-	bones.push( shoulder );
-	bones.push( elbow );
-	bones.push( hand );
-
-	shoulder.position.y = -5;
-	elbow.position.y = 0;
-	hand.position.y = 5;
-
-	var armSkeleton = new THREE.Skeleton( bones );
+	var torsoGeo = new 
 }
 
 function onWindowResize() {
