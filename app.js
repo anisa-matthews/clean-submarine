@@ -2,7 +2,7 @@ import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
 var camera, controls, scene, renderer;
-var mesh, texture;
+var bgMesh, texture;
 var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
@@ -37,8 +37,8 @@ function init() {
 	texture = new THREE.TextureLoader().load( "sand1.jpg" );
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
-	pMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
-	scene.add( pMesh );
+	bgMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
+	scene.add( bgMesh );
 	renderer = new THREE.WebGLRenderer();
 	renderer.setPixelRatio( window.devicePixelRatio );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -48,13 +48,13 @@ function init() {
 	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
 	var material = new THREE.MeshPhongMaterial( { color: 0xffffff, flatShading: true } );
 	for ( var i = 0; i < 500; i ++ ) {
-		var mesh = new THREE.Mesh( geometry, material );
+		var cMesh = new THREE.Mesh( geometry, material );
 		cMesh.position.x = Math.random() * 1600 - 800;
 		cMesh.position.y = 0;
 		cMesh.position.z = Math.random() * 16000 - 800;
 		cMesh.updateMatrix();
 		cMesh.matrixAutoUpdate = false;
-		pMesh.add(cMesh);
+		bgMesh.add(cMesh);
 	}
 
 
