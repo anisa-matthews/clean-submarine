@@ -5,11 +5,16 @@ export default function Submarine(){
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 
+	var segmentHeight = 8;
+	var segmentCount = 4;
+	var height = segmentHeight * segmentCount;
+	var halfHeight = height * 0.5;
+
 	var sizing = {
-		segmentHeight: 8,
-		segmentCount: 4,
-		height: segmentHeight * segmentCount,
-		halfHeight: height * 0.5
+		segmentHeight: segmentHeight,
+		segmentCount: segmentCount,
+		height: height,
+		halfHeight: halfHeight
 	};
 
 	var geometry = createGeometry( sizing );
