@@ -1,6 +1,6 @@
 export default function Submarine(){
 		//TORSO
-	var torsoGeo = new THREE.SphereGeometry( radius, 16, 12 );
+	var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
 	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
