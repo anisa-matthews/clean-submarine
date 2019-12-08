@@ -220,7 +220,7 @@ export default function FirstPersonControls( object, domElement ) {
 
 	this.update = function () {
 
-		var targetPosition = new Vector3();
+		var targetPosition = new THREE.Vector3();
 
 		return function update( delta ) {
 
