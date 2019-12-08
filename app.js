@@ -43,7 +43,7 @@ function init() {
 	window.addEventListener( 'resize', onWindowResize, false );
 }
 
-funciton sceneL(){
+function sceneL(){
 	sceneL = new THREE.Scene();
 	sceneL.background = new THREE.Color( 0x143B5E );
 	sceneL.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
@@ -86,9 +86,27 @@ funciton sceneL(){
 function sceneR(){
 	sceneL = new THREE.Scene();
 	sceneL.background = new THREE.Color( 0x5695BC );
-	////OBJECTS////
-
+	
 	//SUBMARINE//
+
+	var bones = [];
+
+	var shoulder = new THREE.Bone();
+	var elbow = new THREE.Bone();
+	var hand = new THREE.Bone();
+
+	shoulder.add( elbow );
+	elbow.add( hand );
+
+	bones.push( shoulder );
+	bones.push( elbow );
+	bones.push( hand );
+
+	shoulder.position.y = -5;
+	elbow.position.y = 0;
+	hand.position.y = 5;
+
+	var armSkeleton = new THREE.Skeleton( bones );
 }
 
 function onWindowResize() {
