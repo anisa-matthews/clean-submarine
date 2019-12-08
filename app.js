@@ -89,7 +89,7 @@ function scene2(){
 	
 	//SUBMARINE//
 
-	var torsoGeo = new 
+	var torsoGeo;
 }
 
 function onWindowResize() {
