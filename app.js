@@ -1,7 +1,7 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
-var cameraL, cameraR, controlsL, controlsR, renderer;
+var cameraL, cameraR, controls, renderer;
 var sceneL, sceneR;
 var bgMesh, texture;
 var worldWidth = 256, worldDepth = 256,
