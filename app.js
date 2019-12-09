@@ -56,6 +56,7 @@ function init() {
 	// controlsL.lookSpeed = 0.1;
 	controlsL = new THREE.OrbitControls( cameraL, renderer.domElement );
 	controlsR = new THREE.OrbitControls( cameraR, renderer.domElement );
+	controlsR.enabled = false;
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -76,7 +77,7 @@ function scene1(data){
 	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	plane.castShadow = true;
 	plane.receiveShadow = true;
-	plane.position.y = 0;
+	plane.position.y = -20;
 
 	////OBJECTS////
 
@@ -137,7 +138,7 @@ function scene2(){
 
 	// sceneR.add(mesh);
 	
-	//SUBMARINE//
+	//SUBMARINE TORSO//
 	var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
 	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
@@ -220,6 +221,7 @@ function createBones( sizing ){
 
 		var bone = new THREE.Bone();
 		bone.position.y = sizing.segmentHeight;
+		bone.rotation.x = Math.PI / 2;
 		bones.push( bone );
 		prevBone.add( bone );
 		prevBone = bone;
@@ -357,11 +359,11 @@ function initComparisons() {
 	var clicked = false;
 	function slideReady() {
 		clicked = true;
-		controls.enabled = false;
+		controlsL.enabled = false;
 	}
 	function slideFinish() {
 		clicked = false;
-		controls.enabled = true;
+		controlsL.enabled = true;
 	}
 	function slideMove( e ) {
 		if ( ! clicked ) return false;
