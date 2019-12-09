@@ -120,7 +120,7 @@ function setupNoise() {
   xZoom = 6;
   yZoom = 18;
   noiseStrength = 1.5;
-  simplex = new THREE.ASimplexNoise();
+  simplex = new THREE.SimplexNoise();
 }
 
 function scene2(){
