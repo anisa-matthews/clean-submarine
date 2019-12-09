@@ -331,7 +331,7 @@ function adjustVertices(offset) {
     let vertex = plane.geometry.vertices[i];
     let x = vertex.x / xZoom;
     let y = vertex.y / yZoom;
-    let noise = simplex.noise2D(x, y + offset) * noiseStrength; 
+    let noise = simplex.noise(x, y + offset) * noiseStrength; 
     vertex.z = noise;
   }
   geometry.verticesNeedUpdate = true;
@@ -341,7 +341,7 @@ function adjustVertices(offset) {
 function adjustCameraPos(offset) {  
   let x = camera.position.x / xZoom;
   let y = camera.position.y / yZoom;
-  let noise = simplex.noise2D(x, y + offset) * noiseStrength + 1.5; 
+  let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
   camera.position.z = noise;
 }
 
