@@ -24,7 +24,7 @@ function init() {
 	var data = generateHeight( worldWidth, worldDepth );
 	cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
-	cameraR = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
+	cameraR = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
 	cameraR.position.z = 30;
 	cameraR.position.y = 30;
 
