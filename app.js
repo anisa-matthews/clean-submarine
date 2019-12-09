@@ -145,7 +145,7 @@ function scene2(){
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 	torsoMesh.position.y = 0;
-	torsoMesh.position.x = 50;
+	torsoMesh.position.x = 0;
 
 	var segmentHeight = 8;
 	var segmentCount = 4;
