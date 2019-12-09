@@ -1,7 +1,7 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
-var cameraL, cameraR, controlsL, controlsR, renderer;
+var cameraL, cameraR, controls, renderer;
 var sceneL, sceneR;
 var plane, texture;
 
@@ -33,9 +33,9 @@ function init() {
 	// var data = generateHeight( worldWidth, worldDepth );
 	// cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
-	cameraR = new THREE.OrthographicCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
+	cameraR = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
 	cameraR.position.z = 30;
-	cameraR.position.y = 30;
+	cameraR.position.y = 0;
 
 	scene1();
 	scene2();
@@ -51,11 +51,11 @@ function init() {
 	initComparisons();
 	
 	//CONTROLS
-	controlsL = new FirstPersonControls( cameraL, renderer.domElement );
-	controlsL.movementSpeed = 1000;
-	controlsL.lookSpeed = 0.1;
+	// controlsL = new FirstPersonControls( cameraL, renderer.domElement );
+	// controlsL.movementSpeed = 1000;
+	// controlsL.lookSpeed = 0.1;
 
-	controlsR = new THREE.OrbitControls( cameraR, renderer.domElement );
+	controls = new THREE.OrbitControls( cameraR, renderer.domElement );
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -345,8 +345,8 @@ function adjustCameraPos(offset) {
 }
 
 function render() {
-	controlsL.update(clock.getDelta());
-	// controlsR.update();
+	// controlsL.update(clock.getDelta());
+	controls.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
