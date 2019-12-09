@@ -1,7 +1,7 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
-var cameraL, cameraR, controls, renderer;
+var cameraL, cameraR, controlsL, controlsR, renderer;
 var sceneL, sceneR;
 var plane, texture;
 
@@ -26,7 +26,7 @@ function init() {
 	//SCENE//
 	container = document.getElementById( 'container' );
 
-	cameraL = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
+	cameraL = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, .1, 1000 );
 	cameraL.position.x = 0;
 	cameraL.position.y = -20;
 	cameraL.position.z = 3;
@@ -76,6 +76,7 @@ function scene1(data){
 	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	plane.castShadow = true;
 	plane.receiveShadow = true;
+	plane.position.y = 0;
 
 	////OBJECTS////
 
@@ -142,7 +143,7 @@ function scene2(){
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 	torsoMesh.position.y = 0;
-	torsoMesh.position.x = 0;
+	torsoMesh.position.x = 50;
 
 	var segmentHeight = 8;
 	var segmentCount = 4;
