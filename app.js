@@ -95,42 +95,42 @@ function scene2(){
 	sceneR = new THREE.Scene();
 	sceneR.background = new THREE.Color( 0x5695BC );
 
-	var geometry = new THREE.BoxGeometry(45,48,26);
-	var material = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
-	var mesh = new THREE.Mesh(geometry, material);
+	// var geometry = new THREE.BoxGeometry(45,48,26);
+	// var material = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
+	// var mesh = new THREE.Mesh(geometry, material);
 
-	sceneR.add(mesh);
+	// sceneR.add(mesh);
 	
-	// //SUBMARINE//
-	// var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
-	// torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
-	// var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
-	// var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
+	//SUBMARINE//
+	var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
+	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
+	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
+	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 
-	// var segmentHeight = 8;
-	// var segmentCount = 4;
-	// var height = segmentHeight * segmentCount;
-	// var halfHeight = height * 0.5;
+	var segmentHeight = 8;
+	var segmentCount = 4;
+	var height = segmentHeight * segmentCount;
+	var halfHeight = height * 0.5;
 
-	// var sizing = {
-	// 	segmentHeight: segmentHeight,
-	// 	segmentCount: segmentCount,
-	// 	height: height,
-	// 	halfHeight: halfHeight
-	// };
+	var sizing = {
+		segmentHeight: segmentHeight,
+		segmentCount: segmentCount,
+		height: height,
+		halfHeight: halfHeight
+	};
 
-	// var geometry = createGeometry( sizing );
-	// var bones = createBones( sizing );
-	// var mesh = createMesh( geometry, bones );
-	// mesh.scale.multiplyScalar( 1 );
+	var geometry = createGeometry( sizing );
+	var bones = createBones( sizing );
+	var mesh = createMesh( geometry, bones );
+	mesh.scale.multiplyScalar( 1 );
 
-	// torsoMesh.add( mesh );
+	torsoMesh.add( mesh );
 
-	// var skeletonHelper = new THREE.SkeletonHelper( mesh );
-	// skeletonHelper.material.linewidth = 2;
-	// sceneR.add( skeletonHelper );
+	var skeletonHelper = new THREE.SkeletonHelper( mesh );
+	skeletonHelper.material.linewidth = 2;
+	sceneR.add( skeletonHelper );
 
-	// sceneR.add(torsoMesh);
+	sceneR.add(torsoMesh);
 }
 
 function createGeometry( sizing ) {
