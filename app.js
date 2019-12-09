@@ -90,7 +90,7 @@ function scene2(){
 	sceneR.background = new THREE.Color( 0x5695BC );
 	
 	//SUBMARINE//
-	sub = new Submarine();
+	var sub = new Submarine();
 	sceneR.add(sub);
 }
 
