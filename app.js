@@ -103,7 +103,7 @@ function scene1(data){
 		plane.add(cMesh);
 	}
 
-	sceneL.add( bgMesh );
+	sceneL.add( plane );
 
 	////LIGHTS////
 	var light = new THREE.DirectionalLight( 0xffffff );
