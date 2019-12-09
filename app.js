@@ -69,7 +69,7 @@ function scene1(data){
 
 	let side = 120;
 	var planeGeo = new THREE.PlaneGeometry(40, 40, side, side);
-	planeGeo.rotateX( - Math.PI / 2 );
+	// planeGeo.rotateX( - Math.PI / 2 );
 	
 	texture = new THREE.TextureLoader().load( "sand1.jpg" );
 	texture.wrapS = THREE.RepeatWrapping;
@@ -78,7 +78,7 @@ function scene1(data){
 	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	plane.castShadow = true;
 	plane.receiveShadow = true;
-	plane.position.y = -20;
+	plane.position.y = -10;
 
 	////OBJECTS////
 
