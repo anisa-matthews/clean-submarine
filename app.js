@@ -45,6 +45,9 @@ function init() {
 	controlsL = new FirstPersonControls( cameraL, renderer.domElement );
 	controlsL.movementSpeed = 1000;
 	controlsL.lookSpeed = 0.1;
+
+	controlsR = new OrbitControls( cameraR, renderer.domElement );
+	controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
 }
