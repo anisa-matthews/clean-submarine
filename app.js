@@ -3,7 +3,7 @@ import FirstPersonControls from './js/FirstPersonControls.js';
 var container;
 var cameraL, cameraR, controlsL, controlsR, renderer;
 var sceneL, sceneR;
-var bgMesh, texture;
+var plane, texture;
 
 let xZoom, yZoom, noiseStrength, simplex;
 
@@ -66,10 +66,12 @@ function scene1(data){
 	sceneL.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
 
 	let side = 120;
-	planeGeo = new THREE.PlaneGeometry(40, 40, side, side);
-		texture = new THREE.TextureLoader().load( "sand1.jpg" );
+	var planeGeo = new THREE.PlaneGeometry(40, 40, side, side);
+	
+	texture = new THREE.TextureLoader().load( "sand1.jpg" );
 	texture.wrapS = THREE.RepeatWrapping;
 	texture.wrapT = THREE.RepeatWrapping;
+	
 	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	plane.castShadow = true;
 	plane.receiveShadow = true;
