@@ -19,10 +19,11 @@ export default function Submarine(){
 
 	var geometry = createGeometry( sizing );
 	var bones = createBones( sizing );
-	mesh = createMesh( geometry, bones );
+	var mesh = createMesh( geometry, bones );
 	mesh.scale.multiplyScalar( 1 );
 
 	torsoMesh.add( mesh );
+
 	var skeletonHelper = new THREE.SkeletonHelper( mesh );
 	skeletonHelper.material.linewidth = 2;
 	torsoMesh.add( skeletonHelper );
