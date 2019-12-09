@@ -24,7 +24,7 @@ function init() {
 	var data = generateHeight( worldWidth, worldDepth );
 	cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
-	cameraR = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
+	cameraR = new THREE.OrthographicCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
 	cameraR.position.z = 30;
 	cameraR.position.y = 30;
 
@@ -81,7 +81,7 @@ function scene1(data){
 	for ( var i = 0; i < 500; i ++ ) {
 		var cMesh = new THREE.Mesh( geometry, material );
 		cMesh.position.x = Math.random() * 1600 - 800;
-		cMesh.position.y = 0;
+		cMesh.position.y = 20;
 		cMesh.position.z = Math.random() * 16000 - 800;
 		cMesh.updateMatrix();
 		cMesh.matrixAutoUpdate = false;
@@ -89,11 +89,30 @@ function scene1(data){
 	}
 
 	sceneL.add( bgMesh );
+
+	////LIGHTS////
+	var light = new THREE.DirectionalLight( 0xffffff );
+	light.position.set( 1, 1, 1 );
+	sceneL.add( light );
+	var light = new THREE.DirectionalLight( 0x002288 );
+	light.position.set(-1, -1, -1);
+	sceneL.add( light );
+	var light = new THREE.AmbientLight( 0x222222 );
+	scene.add( light );
 }
 
 function scene2(){
 	sceneR = new THREE.Scene();
 	sceneR.background = new THREE.Color( 0x5695BC );
+
+	var light = new THREE.DirectionalLight( 0xffffff );
+	light.position.set( 1, 1, 1 );
+	sceneR.add( light );
+	var light = new THREE.DirectionalLight( 0x002288 );
+	light.position.set(-1, -1, -1);
+	sceneR.add( light );
+	var light = new THREE.AmbientLight( 0x222222 );
+	scene.add( light );
 
 	// var geometry = new THREE.BoxGeometry(45,48,26);
 	// var material = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
@@ -194,7 +213,7 @@ function createBones( sizing ){
 function createMesh( geometry, bones ){
 	var material = new THREE.MeshPhongMaterial( {
 		skinning: true,
-		color: 0x156289,
+		color: 0xE8F5FB,
 		emissive: 0x072534,
 		side: THREE.DoubleSide,
 		flatShading: true
@@ -287,7 +306,7 @@ function animate() {
 
 function render() {
 	controlsL.update(clock.getDelta());
-	controlsR.update();
+	// controlsR.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
