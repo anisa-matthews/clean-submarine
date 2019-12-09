@@ -97,7 +97,7 @@ function scene1(data){
 	for ( var i = 0; i < 500; i ++ ) {
 		var cMesh = new THREE.Mesh( geometry, material );
 		cMesh.position.x = Math.random() * 16000 - 800;
-		cMesh.position.y = 8000;
+		cMesh.position.y = 0;
 		cMesh.position.z = Math.random() * 16000 - 800;
 		cMesh.updateMatrix();
 		cMesh.matrixAutoUpdate = false;
@@ -253,8 +253,7 @@ function onWindowResize() {
 	cameraR.aspect = window.innerWidth / window.innerHeight;
 	cameraR.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	controlsL.handleResize();
-	controlsR.handleResize();
+	controls.handleResize();
 
 }
 
