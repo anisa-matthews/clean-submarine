@@ -46,7 +46,7 @@ function init() {
 	controlsL.movementSpeed = 1000;
 	controlsL.lookSpeed = 0.1;
 
-	controlsR = new THREE.PointerLockControls( cameraR, renderer.domElement );
+	controlsR = new THREE.OrbitControls( cameraR, renderer.domElement );
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
