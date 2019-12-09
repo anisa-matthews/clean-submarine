@@ -286,7 +286,7 @@ function animate() {
 }
 
 function render() {
-	controls.update(clock.getDelta());
+	controls.update();
 	// controlsR.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
