@@ -54,8 +54,8 @@ function init() {
 	// controlsL = new FirstPersonControls( cameraL, renderer.domElement );
 	// controlsL.movementSpeed = 1000;
 	// controlsL.lookSpeed = 0.1;
-
-	controls = new THREE.OrbitControls( cameraR, renderer.domElement );
+	controlsL = new THREE.OrbitControls( cameraL, renderer.domElement );
+	controlsR = new THREE.OrbitControls( cameraR, renderer.domElement );
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -97,7 +97,7 @@ function scene1(data){
 	for ( var i = 0; i < 500; i ++ ) {
 		var cMesh = new THREE.Mesh( geometry, material );
 		cMesh.position.x = Math.random() * 16000 - 800;
-		cMesh.position.y = 0;
+		cMesh.position.y = 8000;
 		cMesh.position.z = Math.random() * 16000 - 800;
 		cMesh.updateMatrix();
 		cMesh.matrixAutoUpdate = false;
@@ -253,7 +253,6 @@ function onWindowResize() {
 	cameraR.aspect = window.innerWidth / window.innerHeight;
 	cameraR.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	controls.handleResize();
 
 }
 
@@ -345,7 +344,7 @@ function adjustCameraPos(offset) {
 
 function render() {
 	// controlsL.update(clock.getDelta());
-	controls.update();
+	controlsL.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
