@@ -333,8 +333,8 @@ function adjustVertices(offset) {
     let noise = simplex.noise(x, y + offset) * noiseStrength; 
     vertex.z = noise;
   }
-  geometry.verticesNeedUpdate = true;
-  geometry.computeVertexNormals();
+  plane.geometry.verticesNeedUpdate = true;
+  plane.geometry.computeVertexNormals();
 }
 
 function adjustCameraPos(offset) {  
