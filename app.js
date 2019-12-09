@@ -1,5 +1,4 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
-import Submarine from './js/Submarine.js';
 
 var container;
 var camera, controls, renderer;
