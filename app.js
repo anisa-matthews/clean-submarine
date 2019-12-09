@@ -98,7 +98,7 @@ function scene1(data){
 	light.position.set(-1, -1, -1);
 	sceneL.add( light );
 	var light = new THREE.AmbientLight( 0x222222 );
-	scene.add( light );
+	sceneL.add( light );
 }
 
 function scene2(){
@@ -112,7 +112,7 @@ function scene2(){
 	light.position.set(-1, -1, -1);
 	sceneR.add( light );
 	var light = new THREE.AmbientLight( 0x222222 );
-	scene.add( light );
+	sceneR.add( light );
 
 	// var geometry = new THREE.BoxGeometry(45,48,26);
 	// var material = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
