@@ -338,10 +338,10 @@ function adjustVertices(offset) {
 }
 
 function adjustCameraPos(offset) {  
-  let x = camera.position.x / xZoom;
-  let y = camera.position.y / yZoom;
+  let x = cameraL.position.x / xZoom;
+  let y = cameraL.position.y / yZoom;
   let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
-  camera.position.z = noise;
+  cameraL.position.z = noise;
 }
 
 function render() {
