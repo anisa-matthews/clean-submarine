@@ -69,6 +69,7 @@ function scene1(data){
 
 	let side = 120;
 	var planeGeo = new THREE.PlaneGeometry(40, 40, side, side);
+	planeGeo.rotateX( - Math.PI / 2 );
 	
 	texture = new THREE.TextureLoader().load( "sand1.jpg" );
 	texture.wrapS = THREE.RepeatWrapping;
@@ -322,7 +323,7 @@ function animate() {
 	requestAnimationFrame( animate );
 	let offset = Date.now() * 0.0004;
   	adjustVertices(offset);
-	adjustCameraPos(offset);
+	// adjustCameraPos(offset);
 	render();
 }
 
@@ -338,16 +339,16 @@ function adjustVertices(offset) {
   plane.geometry.computeVertexNormals();
 }
 
-function adjustCameraPos(offset) {  
-  let x = cameraL.position.x / xZoom;
-  let y = cameraL.position.y / yZoom;
-  let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
-  cameraL.position.z = noise;
-}
+// function adjustCameraPos(offset) {  
+//   let x = cameraL.position.x / xZoom;
+//   let y = cameraL.position.y / yZoom;
+//   let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
+//   cameraL.position.z = noise;
+// }
 
 function render() {
 	// controlsL.update(clock.getDelta());
-	controlsL.update();
+	// controlsL.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
