@@ -4,6 +4,9 @@ var container;
 var cameraL, cameraR, controlsL, controlsR, renderer;
 var sceneL, sceneR;
 var bgMesh, texture;
+
+let xZoom, yZoom, noiseStrength, simplex;
+
 var worldWidth = 256, worldDepth = 256,
 	worldHalfWidth = worldWidth / 2, worldHalfDepth = worldDepth / 2;
 var clock = new THREE.Clock();
@@ -20,15 +23,20 @@ function init() {
 	//SCENE//
 	container = document.getElementById( 'container' );
 
-	cameraL = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
-	var data = generateHeight( worldWidth, worldDepth );
-	cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
+	cameraL = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
+	cameraL.position.x = 0;
+	cameraL.position.y = -20;
+	cameraL.position.z = 3;
+	// var data = generateHeight( worldWidth, worldDepth );
+	// cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
 	cameraR = new THREE.OrthographicCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
 	cameraR.position.z = 30;
 	cameraR.position.y = 30;
 
-	scene1(data);
+	setupNoise();
+
+	scene1();
 	scene2();
 
 	renderer = new THREE.WebGLRenderer( { antialias: true } );
@@ -57,35 +65,40 @@ function scene1(data){
 	sceneL.background = new THREE.Color( 0x143B5E );
 	sceneL.fog = new THREE.FogExp2( 0x4E5C5E, 0.00025 );
 
+	let side = 120;
+	planeGeo = new THREE.PlaneGeometry(40, 40, side, side);
+		texture = new THREE.TextureLoader().load( "sand1.jpg" );
+	texture.wrapS = THREE.RepeatWrapping;
+	texture.wrapT = THREE.RepeatWrapping;
+	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
+	plane.castShadow = true;
+	plane.receiveShadow = true;
+
 	////OBJECTS////
 
-		//BACKGROUND//
-	var planeGeo = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1 );
+	// 	//BACKGROUND//
+	// var planeGeo = new THREE.PlaneBufferGeometry(7500, 7500, worldWidth - 1, worldDepth - 1 );
 
-	planeGeo.rotateX( - Math.PI / 2 );
-	var vertices = planeGeo.attributes.position.array;
-	for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-		vertices[ j + 1 ] = data[ i ] * 10;
-	}
+	// planeGeo.rotateX( - Math.PI / 2 );
+	// var vertices = planeGeo.attributes.position.array;
+	// for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
+	// 	vertices[ j + 1 ] = data[ i ] * 10;
+	// }
 	// texture = new THREE.CanvasTexture( generateTexture( data, worldWidth, worldDepth ) );
 	// texture.wrapS = THREE.ClampToEdgeWrapping;
 	// texture.wrapT = THREE.ClampToEdgeWrapping;
-	texture = new THREE.TextureLoader().load( "sand1.jpg" );
-	texture.wrapS = THREE.RepeatWrapping;
-	texture.wrapT = THREE.RepeatWrapping;
-	bgMesh = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	
 		//CORAL//
 	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
 	var material = new THREE.MeshPhongMaterial( { color: 0xFCAEB3, flatShading: true } );
 	for ( var i = 0; i < 500; i ++ ) {
 		var cMesh = new THREE.Mesh( geometry, material );
-		cMesh.position.x = Math.random() * 1600 - 800;
-		cMesh.position.y = 20;
+		cMesh.position.x = Math.random() * 16000 - 800;
+		cMesh.position.y = 8000;
 		cMesh.position.z = Math.random() * 16000 - 800;
 		cMesh.updateMatrix();
 		cMesh.matrixAutoUpdate = false;
-		bgMesh.add(cMesh);
+		plane.add(cMesh);
 	}
 
 	sceneL.add( bgMesh );
@@ -99,6 +112,15 @@ function scene1(data){
 	sceneL.add( light );
 	var light = new THREE.AmbientLight( 0x222222 );
 	sceneL.add( light );
+}
+
+function setupNoise() {
+  // By zooming y more than x, we get the
+  // appearence of flying along a valley
+  xZoom = 6;
+  yZoom = 18;
+  noiseStrength = 1.5;
+  simplex = new THREE.ASimplexNoise();
 }
 
 function scene2(){
@@ -125,6 +147,8 @@ function scene2(){
 	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
+	torsoMesh.position.y = 0;
+	torsoMesh.position.x = 0;
 
 	var segmentHeight = 8;
 	var segmentCount = 4;
@@ -301,7 +325,29 @@ function generateTexture( data, width, height ) {
 
 function animate() {
 	requestAnimationFrame( animate );
+	let offset = Date.now() * 0.0004;
+  	adjustVertices(offset);
+	adjustCameraPos(offset);
 	render();
+}
+
+function adjustVertices(offset) {
+  for (let i = 0; i < plane.geometry.vertices.length; i++) {
+    let vertex = plane.geometry.vertices[i];
+    let x = vertex.x / xZoom;
+    let y = vertex.y / yZoom;
+    let noise = simplex.noise2D(x, y + offset) * noiseStrength; 
+    vertex.z = noise;
+  }
+  geometry.verticesNeedUpdate = true;
+  geometry.computeVertexNormals();
+}
+
+function adjustCameraPos(offset) {  
+  let x = camera.position.x / xZoom;
+  let y = camera.position.y / yZoom;
+  let noise = simplex.noise2D(x, y + offset) * noiseStrength + 1.5; 
+  camera.position.z = noise;
 }
 
 function render() {
