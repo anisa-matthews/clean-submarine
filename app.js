@@ -5,7 +5,6 @@ var cameraL, cameraR, controlsL, controlsR, renderer;
 var sceneL, sceneR;
 var plane, texture;
 
-let xZoom, yZoom, noiseStrength, simplex;
 var xZoom = 6;
 var yZoom = 18;
 var noiseStrength = 1.5;
