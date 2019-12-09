@@ -91,6 +91,12 @@ function scene1(data){
 function scene2(){
 	sceneR = new THREE.Scene();
 	sceneR.background = new THREE.Color( 0x5695BC );
+
+	var geometry = new THREE.BoxGeometry(45,48,26);
+	var material = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
+	var mesh = new THREE.Mesh(geometry, material);
+
+	sceneR.add(mesh);
 	
 	// //SUBMARINE//
 	// var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
