@@ -1,7 +1,7 @@
 import FirstPersonControls from './js/FirstPersonControls.js';
 
 var container;
-var camera, controls, renderer;
+var cameraL, cameraR, controls, renderer;
 var sceneL, sceneR;
 var bgMesh, texture;
 var worldWidth = 256, worldDepth = 256,
@@ -20,9 +20,13 @@ function init() {
 	//SCENE//
 	container = document.getElementById( 'container' );
 
-	camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
+	cameraL = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 10000 );
 	var data = generateHeight( worldWidth, worldDepth );
-	camera.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
+	cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
+
+	cameraR = new PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 200 );
+	cameraR.position.z = 30;
+	cameraR.position.y = 30;
 
 	scene1(data);
 	scene2();
@@ -38,9 +42,9 @@ function init() {
 	initComparisons();
 	
 	//CONTROLS
-	controls = new FirstPersonControls( camera, renderer.domElement );
-	controls.movementSpeed = 1000;
-	controls.lookSpeed = 0.1;
+	controlsL = new FirstPersonControls( cameraL, renderer.domElement );
+	controlsL.movementSpeed = 1000;
+	controlsL.lookSpeed = 0.1;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
 }
@@ -88,36 +92,36 @@ function scene2(){
 	sceneR = new THREE.Scene();
 	sceneR.background = new THREE.Color( 0x5695BC );
 	
-	//SUBMARINE//
-	var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
-	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
-	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
-	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
+	// //SUBMARINE//
+	// var torsoGeo = new THREE.SphereGeometry( 15, 16, 12 );
+	// torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
+	// var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
+	// var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 
-	var segmentHeight = 8;
-	var segmentCount = 4;
-	var height = segmentHeight * segmentCount;
-	var halfHeight = height * 0.5;
+	// var segmentHeight = 8;
+	// var segmentCount = 4;
+	// var height = segmentHeight * segmentCount;
+	// var halfHeight = height * 0.5;
 
-	var sizing = {
-		segmentHeight: segmentHeight,
-		segmentCount: segmentCount,
-		height: height,
-		halfHeight: halfHeight
-	};
+	// var sizing = {
+	// 	segmentHeight: segmentHeight,
+	// 	segmentCount: segmentCount,
+	// 	height: height,
+	// 	halfHeight: halfHeight
+	// };
 
-	var geometry = createGeometry( sizing );
-	var bones = createBones( sizing );
-	var mesh = createMesh( geometry, bones );
-	mesh.scale.multiplyScalar( 1 );
+	// var geometry = createGeometry( sizing );
+	// var bones = createBones( sizing );
+	// var mesh = createMesh( geometry, bones );
+	// mesh.scale.multiplyScalar( 1 );
 
-	torsoMesh.add( mesh );
+	// torsoMesh.add( mesh );
 
-	var skeletonHelper = new THREE.SkeletonHelper( mesh );
-	skeletonHelper.material.linewidth = 2;
-	sceneR.add( skeletonHelper );
+	// var skeletonHelper = new THREE.SkeletonHelper( mesh );
+	// skeletonHelper.material.linewidth = 2;
+	// sceneR.add( skeletonHelper );
 
-	sceneR.add(torsoMesh);
+	// sceneR.add(torsoMesh);
 }
 
 function createGeometry( sizing ) {
@@ -198,10 +202,14 @@ function createMesh( geometry, bones ){
 }
 
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+	cameraL.aspect = window.innerWidth / window.innerHeight;
+	cameraL.updateProjectionMatrix();
+	cameraR.aspect = window.innerWidth / window.innerHeight;
+	cameraR.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	controls.handleResize();
+	controlsL.handleResize();
+	controlsR.handleResize();
+
 }
 
 function generateHeight( width, height ) {
@@ -269,11 +277,11 @@ function animate() {
 }
 
 function render() {
-	controls.update(clock.getDelta());
+	controlsL.update(clock.getDelta());
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
-	renderer.render( sceneL, camera );
+	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
-	renderer.render( sceneR, camera );
+	renderer.render( sceneR, cameraR );
 }
 
 function initComparisons() {
