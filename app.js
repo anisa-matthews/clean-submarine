@@ -47,7 +47,7 @@ function init() {
 	controlsL.lookSpeed = 0.1;
 
 	controlsR = new OrbitControls( cameraR, renderer.domElement );
-	controlsR.enableZoom = false;
+	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
 }
