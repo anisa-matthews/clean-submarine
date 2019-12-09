@@ -42,11 +42,11 @@ function init() {
 	initComparisons();
 	
 	//CONTROLS
-	controlsL = new FirstPersonControls( cameraL, renderer.domElement );
-	controlsL.movementSpeed = 1000;
-	controlsL.lookSpeed = 0.1;
+	// controlsL = new FirstPersonControls( cameraL, renderer.domElement );
+	// controlsL.movementSpeed = 1000;
+	// controlsL.lookSpeed = 0.1;
 
-	controlsR = new OrbitControls( cameraR, renderer.domElement );
+	controls = new THREE.PointerLockControls( cameraR, renderer.domElement );
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -216,8 +216,8 @@ function onWindowResize() {
 	cameraR.aspect = window.innerWidth / window.innerHeight;
 	cameraR.updateProjectionMatrix();
 	renderer.setSize( window.innerWidth, window.innerHeight );
-	controlsL.handleResize();
-	controlsR.handleResize();
+	controls.handleResize();
+	// controlsR.handleResize();
 
 }
 
@@ -286,8 +286,8 @@ function animate() {
 }
 
 function render() {
-	controlsL.update(clock.getDelta());
-	controlsR.update();
+	controls.update(clock.getDelta());
+	// controlsR.update();
 	renderer.setScissor( 0, 0, sliderPos, window.innerHeight );
 	renderer.render( sceneL, cameraL );
 	renderer.setScissor( sliderPos, 0, window.innerWidth, window.innerHeight );
