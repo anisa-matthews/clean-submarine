@@ -5,8 +5,8 @@ var cameraL, cameraR, controlsL, controlsR, renderer;
 var sceneL, sceneR;
 var plane, texture;
 
-var xZoom = 6;
-var yZoom = 18;
+var xZoom = 18;
+var yZoom = 15;
 var noiseStrength = 1.5;
 var simplex = new THREE.SimplexNoise();
 
@@ -26,10 +26,11 @@ function init() {
 	//SCENE//
 	container = document.getElementById( 'container' );
 
-	cameraL = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, .1, 1000 );
+	cameraL = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, .1, 1000 );
 	cameraL.position.x = 0;
 	cameraL.position.y = -20;
 	cameraL.position.z = 3;
+	controlsL = new THREE.OrbitControls( cameraL);
 	// var data = generateHeight( worldWidth, worldDepth );
 	// cameraL.position.y = data[ worldHalfWidth + worldHalfDepth * worldWidth ] * 10 + 500;
 
@@ -54,9 +55,8 @@ function init() {
 	// controlsL = new FirstPersonControls( cameraL, renderer.domElement );
 	// controlsL.movementSpeed = 1000;
 	// controlsL.lookSpeed = 0.1;
-	controlsL = new THREE.OrbitControls( cameraL, renderer.domElement );
 	controlsR = new THREE.OrbitControls( cameraR, renderer.domElement );
-	controlsR.enabled = false;
+	// controlsR.enabled = false;
 	// controlsR.enableZoom = false;
 	//
 	window.addEventListener( 'resize', onWindowResize, false );
@@ -78,7 +78,6 @@ function scene1(data){
 	plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { map: texture } ) );
 	plane.castShadow = true;
 	plane.receiveShadow = true;
-	plane.position.y = -10;
 
 	////OBJECTS////
 
@@ -95,17 +94,17 @@ function scene1(data){
 	// texture.wrapT = THREE.ClampToEdgeWrapping;
 	
 		//CORAL//
-	var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
-	var material = new THREE.MeshPhongMaterial( { color: 0xFCAEB3, flatShading: true } );
-	for ( var i = 0; i < 500; i ++ ) {
-		var cMesh = new THREE.Mesh( geometry, material );
-		cMesh.position.x = Math.random() * 16000 - 800;
-		cMesh.position.y = 8000;
-		cMesh.position.z = Math.random() * 16000 - 800;
-		cMesh.updateMatrix();
-		cMesh.matrixAutoUpdate = false;
-		plane.add(cMesh);
-	}
+	// var geometry = new THREE.CylinderBufferGeometry( 0, 10, 30, 4, 1 );
+	// var material = new THREE.MeshPhongMaterial( { color: 0xFCAEB3, flatShading: true } );
+	// for ( var i = 0; i < 500; i ++ ) {
+	// 	var cMesh = new THREE.Mesh( geometry, material );
+	// 	cMesh.position.x = Math.random() * 16000 - 800;
+	// 	cMesh.position.y = 8000;
+	// 	cMesh.position.z = Math.random() * 16000 - 800;
+	// 	cMesh.updateMatrix();
+	// 	cMesh.matrixAutoUpdate = false;
+	// 	plane.add(cMesh);
+	// }
 
 	sceneL.add( plane );
 
@@ -145,7 +144,7 @@ function scene2(){
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 0x222222, flatShading: true } );
 	var torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 	torsoMesh.position.y = 0;
-	torsoMesh.position.x = 0;
+	torsoMesh.position.x = 20;
 
 	var segmentHeight = 8;
 	var segmentCount = 4;
@@ -323,7 +322,7 @@ function animate() {
 	requestAnimationFrame( animate );
 	let offset = Date.now() * 0.0004;
   	adjustVertices(offset);
-	// adjustCameraPos(offset);
+	adjustCameraPos(offset);
 	render();
 }
 
@@ -339,12 +338,12 @@ function adjustVertices(offset) {
   plane.geometry.computeVertexNormals();
 }
 
-// function adjustCameraPos(offset) {  
-//   let x = cameraL.position.x / xZoom;
-//   let y = cameraL.position.y / yZoom;
-//   let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
-//   cameraL.position.z = noise;
-// }
+function adjustCameraPos(offset) {  
+  let x = cameraL.position.x / xZoom;
+  let y = cameraL.position.y / yZoom;
+  let noise = simplex.noise(x, y + offset) * noiseStrength + 1.5; 
+  cameraL.position.z = noise;
+}
 
 function render() {
 	// controlsL.update(clock.getDelta());
