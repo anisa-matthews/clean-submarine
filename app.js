@@ -95,18 +95,76 @@ function setupSub(){
 		halfHeight: halfHeight
 	};
 
-	var geometry = createGeometry( sizing );
-	var bones = createBones( sizing );
-	var mesh = createMesh( geometry, bones );
-	mesh.scale.multiplyScalar( 1 );
+	//arm one
+	var geo1 = createGeometry( sizing );
+	var bones1 = createBones( sizing );
+	var mesh1 = createMesh( geo1, bones1 );
+	mesh1.scale.multiplyScalar( 1 );
+	mesh1.position.z = torsoMesh.position.z + 5;
+	mesh1.rotation.x = Math.PI / 2;
 
-	torsoMesh.add( mesh );
+	torsoMesh.add( mesh1 );
 
-	var skeletonHelper = new THREE.SkeletonHelper( mesh );
+	//arm two
+	var geo2 = createGeometry( sizing );
+	var bones2 = createBones( sizing );
+	var mesh2 = createMesh( geo2, bones2 );
+	mesh2.scale.multiplyScalar( 1 );
+	mesh2.position.z = torsoMesh.position.z - 25;
+	mesh2.rotation.x = Math.PI / 2;
+
+	torsoMesh.add(mesh2);
+
+	var skeletonHelper = new THREE.SkeletonHelper( mesh1 );
 	skeletonHelper.material.linewidth = 2;
 	scene.add( skeletonHelper );
 
 	torsoMesh.position.z = 5;
+
+	//PALMS
+	var cGeo = new THREE.CircleGeometry( 2.5, 32 );
+	var cMat= new THREE.MeshPhongMaterial({
+		color: 0x536266,
+		emissive: 0x072534,
+		side: THREE.DoubleSide,
+		flatShading: true
+	});
+	var circle1 = new THREE.Mesh( cGeo, cMat);
+	circle1.rotation.x = Math.PI / 2;
+	circle1.position.y = mesh1.position.y + 6;
+	mesh1.add( circle1 );
+
+	//FINGERS
+	for (var i = 0; i < 5; i++){
+		var geometry = new THREE.ConeBufferGeometry( .5, 7, 12 );
+		var material = new THREE.MeshBasicMaterial( {color: 0x536266} );
+		var cone = new THREE.Mesh( geometry, material );
+		cone.rotation.x = i;
+		circle1.add( cone );
+	}
+
+	var cGeo2 = new THREE.CircleGeometry( 2.5, 32 );
+	var cMat2= new THREE.MeshPhongMaterial({
+		color: 0x536266,
+		emissive: 0x072534,
+		side: THREE.DoubleSide,
+		flatShading: true
+	});
+	var circle2 = new THREE.Mesh( cGeo2, cMat2);
+	circle2.rotation.x = Math.PI / 2;
+	circle2.position.y = mesh2.position.y - 6;
+	mesh2.add( circle2 );
+
+	//FINGERS
+	for (var i = 0; i < 5; i++){
+		var geometry = new THREE.ConeBufferGeometry( .5, 7, 12 );
+		var material = new THREE.MeshBasicMaterial( {color: 0x536266} );
+		var cone = new THREE.Mesh( geometry, material );
+		cone.rotation.x = i;
+		circle2.add( cone );
+	}
+
+
 
 	scene.add(torsoMesh);
 }
@@ -178,23 +236,21 @@ function createBones( sizing ){
 function createMesh( geometry, bones ){
 	var material = new THREE.MeshPhongMaterial({
 		skinning: true,
-		color: 0xE8F5FB,
+		color: 0x536266,
 		emissive: 0x072534,
 		side: THREE.DoubleSide,
 		flatShading: true
 	});
 
 	var mesh = new THREE.SkinnedMesh( geometry,	material );
-	mesh.position.z = torsoMesh.position.z + 25;
-	mesh.rotation.x = Math.PI / 2;
 	var skeleton = new THREE.Skeleton( bones );
 
 	mesh.add( bones[ 0 ] );
 
 	mesh.bind( skeleton );
 
-	mesh.skeleton.bones[0].rotation.z = - Math.PI;
-	mesh.skeleton.bones[1].position.x += 7
+	// mesh.skeleton.bones[0].rotation.z = - Math.PI;
+	// mesh.skeleton.bones[1].position.x += 7
 
 	return mesh;
 }
