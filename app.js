@@ -58,13 +58,13 @@ function setupPlane() {
   geometry = new THREE.PlaneGeometry(side, side, side, side);
 
   let texture = new THREE.TextureLoader().load( "sand1.jpg" );
-  // texture.wrapS = THREE.RepeatWrapping;
-  // texture.wrapT = THREE.RepeatWrapping;
-  // material = new THREE.MeshBasicMaterial( { map: texture } );
-  let material = new THREE.MeshStandardMaterial({
-    roughness: 0.8,
-    color: new THREE.Color(0xE6D15C),
-  });
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  material = new THREE.MeshBasicMaterial( { map: texture } );
+  // let material = new THREE.MeshStandardMaterial({
+  //   roughness: 0.8,
+  //   color: new THREE.Color(0xE6D15C),
+  // });
   plane = new THREE.Mesh(geometry, material);
   plane.castShadow = true;
   plane.receiveShadow = true;
