@@ -23,7 +23,7 @@ function setup() {
 function setupNoise() {
   // By zooming y more than x, we get the
   // appearence of flying along a valley
-  xZoom = 18;
+  xZoom = 20;
   yZoom = 15;
   noiseStrength = 1.5;
   simplex = new THREE.SimplexNoise();
@@ -158,12 +158,17 @@ function setupSub(){
 	//FINGERS
 	for (var i = 0; i < 5; i++){
 		var geometry = new THREE.ConeBufferGeometry( .5, 7, 12 );
-		var material = new THREE.MeshBasicMaterial( {color: 0x536266} );
+		var material = new THREE.MeshPhongMaterial( {color: 0x536266} );
 		var cone = new THREE.Mesh( geometry, material );
 		cone.rotation.x = i;
 		circle2.add( cone );
 	}
 
+	var sGeo = new THREE.BoxGeometry(2.5, 2.5, 2.5 );
+	var sMat = new THREE.MeshPhongMaterial( {color: 0x536266} );
+	var cube = new THREE.Mesh( sGeo, sMat );
+	cube.position.y = torsoMesh.position.y - 10;
+	torsoMesh.add(cube);
 
 
 	scene.add(torsoMesh);
