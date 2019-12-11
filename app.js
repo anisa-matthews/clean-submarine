@@ -55,16 +55,16 @@ function setupRenderer() {
 
 function setupPlane() {
   let side = 240;
-  geometry = new THREE.PlaneGeometry(80, 80, side, side);
+  geometry = new THREE.PlaneGeometry(side, side, side, side);
 
   let texture = new THREE.TextureLoader().load( "sand1.jpg" );
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  material = new THREE.MeshBasicMaterial( { map: texture } );
-  // let material = new THREE.MeshStandardMaterial({
-  //   roughness: 0.8,
-  //   color: new THREE.Color(0xE6D15C),
-  // });
+  // texture.wrapS = THREE.RepeatWrapping;
+  // texture.wrapT = THREE.RepeatWrapping;
+  // material = new THREE.MeshBasicMaterial( { map: texture } );
+  let material = new THREE.MeshStandardMaterial({
+    roughness: 0.8,
+    color: new THREE.Color(0xE6D15C),
+  });
   plane = new THREE.Mesh(geometry, material);
   plane.castShadow = true;
   plane.receiveShadow = true;
@@ -75,7 +75,7 @@ function setupPlane() {
 
 function setupSub(){
 	var torsoGeo = new THREE.SphereGeometry( 7.5, 8, 6 );
-	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 1.0, 1.2, 1.5 ) );
+	torsoGeo.applyMatrix( new THREE.Matrix4().makeScale( 2.0, 1.2, 1.5 ) );
 	var torsoMaterial = new THREE.MeshPhongMaterial( { color: 536266, flatShading: true } );
 	torsoMesh = new THREE.Mesh(torsoGeo, torsoMaterial);
 	torsoMesh.rotation.y = Math.PI / 2;
@@ -83,8 +83,8 @@ function setupSub(){
 	torsoMesh.position.z = 10;
 	// torsoMesh.position.x = 0;
 
-	var segmentHeight = 4;
-	var segmentCount = 2;
+	var segmentHeight = 3;
+	var segmentCount = 4;
 	var height = segmentHeight * segmentCount;
 	var halfHeight = height * 0.5;
 
@@ -113,10 +113,10 @@ function setupSub(){
 
 function createGeometry( sizing ) {
 	var armGeo = new THREE.CylinderBufferGeometry(
-		5, // radiusTop
-		5, // radiusBottom
+		1, // radiusTop
+		1, // radiusBottom
 		sizing.height, // height
-		8, // radiusSegments
+		9, // radiusSegments
 		sizing.segmentCount * 3, // heightSegments
 		true // openEnded
 	);
@@ -153,7 +153,8 @@ function createBones( sizing ){
 	let bones = [];
 
 	var prevBone = new THREE.Bone();
-	prevBone.position.x = torsoMesh.position.x + 20;
+	// prevBone.rotation.z = -2;
+	// prevBone.position.x = torsoMesh.position.x + 20;
 	bones.push( prevBone );
 	prevBone.position.y = - sizing.halfHeight;
 
@@ -161,6 +162,10 @@ function createBones( sizing ){
 
 		var bone = new THREE.Bone();
 		bone.position.y = sizing.segmentHeight;
+		// if (i == sizing.segmentCount - 2){
+		// 	bone.rotation.z = - Math.PI;
+		// 	bone.position.x += 7;
+		// }
 		bones.push( bone );
 		prevBone.add( bone );
 		prevBone = bone;
@@ -180,12 +185,16 @@ function createMesh( geometry, bones ){
 	});
 
 	var mesh = new THREE.SkinnedMesh( geometry,	material );
+	mesh.position.z = torsoMesh.position.z + 25;
 	mesh.rotation.x = Math.PI / 2;
 	var skeleton = new THREE.Skeleton( bones );
 
 	mesh.add( bones[ 0 ] );
 
 	mesh.bind( skeleton );
+
+	mesh.skeleton.bones[0].rotation.z = - Math.PI;
+	mesh.skeleton.bones[1].position.x += 7
 
 	return mesh;
 }
